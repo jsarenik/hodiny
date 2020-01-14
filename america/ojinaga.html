@@ -1,0 +1,191 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link href="/favicon.ico" rel="shortcut icon">
+  <link rel="stylesheet" href="/css/style.css">
+  <title>Exact time clock for Ojinaga</title>
+
+<script>var today = new Date();</script>
+<script src="/css/gettime.php?tz=America/Ojinaga"></script>
+<script>
+	var client = parseInt(today.getTime());
+	var showdec = true;
+	
+	var timeSeconds = curds;	
+	var startmoment = today;
+	var totalSeconds = timeSeconds;
+
+
+	var da = 0;
+	var ne = 0;
+	var starttime = 0;
+	
+	function showds() {
+		showdec = true;
+	}
+	function hideds() {
+		showdec = false;
+	}
+
+	function dosync() {
+			$.ajax({url: "/css/gettime2.php?tz=America/Ojinaga",cache:false, timeout:1800, 
+				beforeSend: function(xhr) {
+					starttime = parseInt(new Date().getTime());
+				}, 
+				error: function(xhr){
+					ne++;
+					document.getElementById('fal').innerHTML = ne;
+					nextsync = 3000;
+					if(ne>5) nextsync = 10000;
+					synctimer = setTimeout(dosync, nextsync);
+				}, 
+			success: function(result){
+				today = new Date();
+				client = parseInt(today.getTime());
+				da++;
+				startmoment = today;
+				timeSeconds = parseInt(result);
+				document.getElementById('suc').innerHTML = da;
+				precision = (client - starttime)/1000;
+				document.getElementById('pre').innerHTML = precision;
+				if(precision >1) document.getElementById('pre').style.color='RED'; else document.getElementById('pre').style.color='GREEN';
+				document.getElementById('lte').innerHTML = pad(parseInt(totalSeconds/360000)%24) + ':' + pad(parseInt(totalSeconds/6000)%60) + ':' + pad(parseInt(totalSeconds/100)%60);
+					nextsync = 3000;
+					if(da>5) nextsync = 10000;
+					if(da>10) nextsync = 30000;
+					if(precision<0.4 && da>4) nextsync = 60000;
+					if(precision<0.15 && da>4) nextsync = 120000;
+					synctimer = setTimeout(dosync, nextsync);
+			}});
+	}
+
+	function doTime() {
+		var now = new Date();
+		totalSeconds = parseInt((now - startmoment)/10+timeSeconds);
+		if(showdec == true) decsecondsLabel.innerHTML = '.'+(parseInt(totalSeconds/10)%10); else decsecondsLabel.innerHTML ='';
+		secondsLabel.innerHTML = pad(parseInt(totalSeconds/100)%60);
+		minutesLabel.innerHTML = pad(parseInt(totalSeconds/6000)%60);
+		hoursLabel.innerHTML = pad(parseInt(totalSeconds/360000)%24);
+	}
+
+	function pad(val) {
+		var valString = val + "";
+		if(valString.length < 2) return "0" + valString; else return valString;
+	}
+
+
+</script>
+<script src="/css/jquery.min.js"></script>
+
+  <!--[if lt IE 9]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+</head>
+
+<body>
+  <div class="container">
+
+    <header class="header clearfix">
+      <div class="logo"><a href="http://clock.zone/">Clock.Zone</a></div>
+
+      <nav class="menu_main">
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/about">About</a></li>
+          <li><a href="/gmt/">GMT</a></li>
+          <li><a href="/analog">Analog</a></li>
+          <li><a href="/more/">More Clocks</a></li>
+          <li><a href="/tools/">Tools</a></li>
+          <li><a href="/widget/">Widgets</a></li>
+        </ul>
+      </nav>
+    </header>
+
+
+    <div class="info">
+      <article class="hero clearfix">
+        <div class="col_100">
+          <h1 style="margin:0;">Exact time clock for Ojinaga:</h1>
+          <div class="col_50">
+				<p style="font-size:72px; margin:0;"><label id="hours" style="font-size:72px;">-</label>:<label id="minutes" style="font-size:72px;">-</label>:<label id="seconds" style="font-size:72px;">-</label><label id="decseconds" style="font-size:36px;">-</label></p>
+				<div>Decimal seconds: <a href="javascript:showds();">Show</a> / <a href="javascript:hideds();">Hide</a></div>
+          </div>
+          <div class="col_50"><a href="/analog?tz=America%2FOjinaga" title="Ojinaga analog clock"><img src="/images/analog.gif" align="right"></a>
+                <div>Sync precision: &plusmn;<span id="pre" style="font-weight:bold;">0</span> s</div>
+                <div>Sync succ:<span id="suc">0</span></div>
+                <div>Latest sync:<span id="lte">0</span></div>
+                <div>Sync fail:<span id="fal">0</span></div>
+  <script>
+		document.getElementById('lte').innerHTML = pad(parseInt(totalSeconds/360000)%24) + ':' + pad(parseInt(totalSeconds/6000)%60) + ':' + pad(parseInt(totalSeconds/100)%60);
+  		document.getElementById('pre').innerHTML = (dtest-today)/1000;
+        var hoursLabel = document.getElementById("hours");
+        var minutesLabel = document.getElementById("minutes");
+        var secondsLabel = document.getElementById("seconds");
+        var decsecondsLabel = document.getElementById("decseconds");
+        setInterval(doTime, 100);
+		synctimer = setTimeout(dosync, 2200);
+    </script>
+                
+          </div>
+          <p style="clear:both">Shown digital clock is current time for &quot;<strong>America/Ojinaga</strong>&quot; time zone. This clock is synchronised with our dedicated server time. </p>
+        </div>
+      </article>
+
+
+      <article class="article clearfix">
+        <div class="col_100">
+          <p>Navigation: <a href="/">Clock.Zone</a> / <a href="/america/">America</a> / <a href="/mexico">Mexico</a> / <a href="/america/ojinaga">Ojinaga</a></p>
+          <h1>America/Ojinaga Clock</h1>
+          <p>In moment when this page was generated, in <strong>America/Ojinaga</strong> timezone it was <strong>Tuesday, 14 January 2020 (12:06 PM)</strong>. Abbreviation for this time zone is <strong>MST</strong>. 
+          Difference to Greenwich mean time  is -25200 seconds = <a href="/gmt/-7">GMT-7</a>. 
+          </p>
+        </div>
+        <div class="clearfix"></div>
+        
+        <div class="col_50">
+          <h3>Daylight Saving Time (DST)</h3>
+<p><strong>Latest DST</strong> changes:<br>
+The timezone America/Ojinaga switched to standard time on Sunday, 03 November 2019 (2:00 AM). 
+					New GMT offset <a href="/gmt/-7">GMT-7</a> hour(s) (MST). 
+					The time was set -1h.</p><p><strong>Next DST</strong> changes: <br>
+The timezone America/Ojinaga switches to DST on <strong>Sunday, 08 March 2020 (2:00 AM)</strong>. 
+					New GMT offset will be GMT-6 hour(s) (MDT). 
+					Clocks will be set <strong>+1h</strong>.</p><hr>
+<h3>Position of America/Ojinaga on world time zone map:</h3>
+<div style="position:relative; max-width:1000px; margin:auto;"><img src="/images/timezonemap.jpg" style="width:100%; max-width:1000px; height:auto;">
+<div style="position:absolute; left:21%; top:33.57%;"><img src="/images/marker.png" style="position:relative; left:-12px; top:-31px;"></div>
+</div>
+
+        </div>
+        
+        <div class="col_50">
+          <h2>More clocks or widgets for America/Ojinaga time zone</h2>
+
+          <p>On clock.zone, you can find widgets and other clocks too. If you want to see clocks that display time in Ojinaga (and not visitor's local time), copy-paste this time zone in field on those pages:</p>
+          <p><input type="text" value="America/Ojinaga" onClick="select()" style="background-color:#FC9;"></p>
+          <h2>Support the webmaster</h2>
+
+          <p>If you like clock.zone, please, support me. That's one small click for man, one giant spiritual support for me :-) </p>
+</div>
+
+        <div class="clearfix"></div>
+    <hr>
+<p>Notice: This map doesn't contain information about Daylight Saving Time (DST), it's just approximately position of Ojinaga on world map. </p>
+
+      </article>
+    </div>
+    
+    <footer class="footer clearfix">
+      <div class="copyright">2015 &copy; Clock.zone</div>
+
+      <nav class="menu_bottom">
+        <ul>
+          <li><a href="/termsofuse">Terms of use</a></li>
+          <li><a href="/contact">Contact</a></li>
+        </ul>
+      </nav>
+    </footer>
+
+  </div>
+</body>
+</html>

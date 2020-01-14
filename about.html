@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <link href="favicon.ico" rel="shortcut icon">
+  <link rel="stylesheet" href="/css/style.css">
+  <title>About clock.zone</title>  
+  <!--[if lt IE 9]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+</head>
+
+<body>
+  <div class="container">
+
+    <header class="header clearfix">
+      <div class="logo"><a href="http://clock.zone/">Clock.Zone</a></div>
+
+      <nav class="menu_main">
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li class="active"><a href="/about">About</a></li>
+          <li><a href="/gmt/">GMT</a></li>
+          <li><a href="/analog">Analog</a></li>
+          <li><a href="/more/">More Clocks</a></li>
+          <li><a href="/tools/">Tools</a></li>
+          <li><a href="/widget/">Widgets</a></li>
+        </ul>
+      </nav>
+    </header>
+
+
+    <div class="info">
+      <article class="hero clearfix">
+        <div class="col_100">
+          <p>Navigation: <a href="/">Clock.Zone</a> / <a href="/about">About</a></p>
+</div>
+      </article>
+
+
+      <article class="article clearfix">
+        <div class="col_50">
+          <h1>About clock.zone</h1>
+          <p>As I mentioned on home page, my main goal was to build a website where you can find <STRONG>real exact time</STRONG>. </p>
+          <p><strong>Most of the applications, widgets or websites are showing time from your device clock.</strong> But can you trust to clock built in your computer or mobile phone? Sometimes it may be late or ahead (few seconds or even minutes). Or maybe time zone is not set properly, or you forgot to set the DST time, etc.</p>
+          <p>All analog and digital clocks, widgets on clock.zone shows time from our dedicated server synchronised with atomic clock.          </p>
+          <p>On clock.zone you can find exact times for time zones world wide too. You can set this clock to run in background or place it on your website as widget.</p>
+          <h3>Summary</h3>
+          <p><img src="images/about.gif" width="275" height="129"><br>
+            (A): Offset of clock in your computer, (ahead or late, in seconds). If this number is very big (example 3605.4 s), check settings of your default time zone or DST. <br>
+            (B): Precision of synchronisation (time since request is sent and received). If this number is too big (due the slow internet connection in request moment), shown time may have this delay.<br>
+            (C): counter of succesiful synchronisation (just informative)<br>
+            (D): Latest synchronisation (just informative)<br>
+(E): counter of fail synchronisation (no problem, site will try later again and again..) <br>
+          </p>
+          <h3>Technical details</h3>
+          <p>In moment when you request the content of the page with clock, exact time is sent together with html code (milliseconds since Epoch time).</p>
+          <p>Offset is calculated (between time in your device and our server time). From that moment, your clock is used to calculate the past time. BUT every 10-60 seconds AJAX is used in background to check is your time still accurate. What this means? For example, if your device clock is late 5 minutes per day (that's very much), in 1 minute delay will be only 0.2 seconds. And every minute AJAX will try to synchronise in background the time with clock.zone server. What happens if internet connection is lost? In that case, AJAX will continue to try again, when internet connection is back, clock will be accurate again. </p>
+          <p>There are few technical problems: One is your internet speed. There is a delay since our server send the exact time and your computer get the data. To predict the precision, there is a small piece of code, that measure the time from request sending and receieving (B) client-&gt;server-&gt;client. The real delay is only traveling time from server-&gt;client, but in script running on your computer (JS), I can only measure start of the request where client-&gt;server time is included too. </p>
+          <p>Another technical problem is the temporary load of your device in moment, when it measure the time and process the information. </p>
+          <p>Oh, yes, and there is always existing problem, compatibility with internet browsers. I tried to use solutions, where main digital and analog clock scripts supports Firefox 3.0+, Safari 3.0+, Chrome 5.0+, Opera 9.5+                      and Internet Explorer 6.0+. Some clocks in &quot;<a href="/more/">more clocks</a>&quot; category working only with new modern browsers, but those pages are only for fun (but of course, they show exact times too).</p>
+
+        </div>
+        
+        <div class="col_50">
+          <h2>Demonstration of clock.zone precision</h2>
+          <p><iframe width="560" height="315" src="https://www.youtube.com/embed/9V_YQ_LjStI?rel=0" frameborder="0" allowfullscreen></iframe></p>
+          <h2>Support the webmaster</h2>
+
+          <p>If you like clock.zone, please, support me. That's one small click for man, one giant spiritual support for me :-) </p>
+</div>
+
+        <div class="clearfix"></div>
+    <hr>
+<p>Your feedback is welcome. </p>
+
+      </article>
+    </div>
+    
+    <footer class="footer clearfix">
+      <div class="copyright">2015 &copy; Clock.zone</div>
+
+      <nav class="menu_bottom">
+        <ul>
+          <li><a href="/termsofuse">Terms of use</a></li>
+          <li><a href="/contact">Contact</a></li>
+        </ul>
+      </nav>
+    </footer>
+
+  </div>
+</body>
+</html>
