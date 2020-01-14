@@ -1,6 +1,6 @@
 #!/bin/sh
 
-for dir in $(find . -type d -mindepth 1 -maxdepth 1)
+for dir in $(find . -type d -mindepth 0 -maxdepth 1)
 do
 cd $dir
 for i in *.html
@@ -10,5 +10,5 @@ do
   mkdir ${i%%.html}
   mv -v $i ${i%%.html}/index.html
 done
-cd -
+cd - >/dev/null 2>&1
 done
