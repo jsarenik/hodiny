@@ -75,6 +75,7 @@
 		secondsLabel.innerHTML = pad(parseInt(totalSeconds/100)%60);
 		minutesLabel.innerHTML = pad(parseInt(totalSeconds/6000)%60);
 		hoursLabel.innerHTML = pad(parseInt(totalSeconds/360000)%24);
+		document.title = hoursLabel.innerHTML + ":" + minutesLabel.innerHTML + ":" + secondsLabel.innerHTML
 	}
 
 	function pad(val) {
