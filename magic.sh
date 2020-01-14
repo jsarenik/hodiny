@@ -2,6 +2,7 @@
 
 for dir in $(find . -type d -mindepth 0 -maxdepth 1)
 do
+test "$dir"=".git" && continue
 cd $dir
 for i in *.html
 do
