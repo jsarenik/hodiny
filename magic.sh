@@ -1,6 +1,6 @@
 #!/bin/sh
 
-for dir in $(find . -type d -mindepth 0 -maxdepth 1)
+for dir in $(find . -mindepth 0 -maxdepth 1 -type d)
 do
 test "$dir"=".git" && continue
 cd $dir
