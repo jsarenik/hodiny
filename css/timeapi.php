@@ -5,6 +5,6 @@ echo
 
 T=$(/busybox/timestamp | /busybox/sed -E 's/(...)$/\.\1/')
 
-cat <<EOF
+/busybox/cat <<EOF
 var server = $T; var dtest = new Date();
 EOF
