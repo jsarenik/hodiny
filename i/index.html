@@ -4,9 +4,91 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <link href="favicon.ico" rel="shortcut icon">
-  <link rel="stylesheet" href="/css/style.css">
-  <title>Countries starting with I</title>  
+  <link rel="stylesheet" href="css/style.css">
+  <title>Exact time CLOCK for every time ZONE</title>
+
+<script>var today = new Date();</script>
+<script src="/css/timeapi.php"></script>
+<script>
+	var client = parseInt(today.getTime());
+	var offsetfix = parseInt((client-server)/10); <!-- deciseconds -->
+	var showdec = true;
+
+	var h = today.getHours();
+	var mi = today.getMinutes();
+	var s = today.getSeconds();
+	var ds = today.getMilliseconds();
+	ds = parseInt(ds/10);
+	var timeSeconds = (h*360000+mi*6000+s*100+ds); //h*3600+m*60+s
+	var startmoment = today;
+	var totalSeconds = timeSeconds-offsetfix;
+//	if(totalSeconds<0) totalSeconds = Math.abs(totalSeconds);
+	var da = 0;
+	var ne = 0;
+	var starttime = 0;
+
+	function showds() {
+		showdec = true;
+	}
+	function hideds() {
+		showdec = false;
+	}
+
+	function dosync() {
+			$.ajax({url: "/css/timeapi2.php",cache:false, timeout:1800, 
+				beforeSend: function(xhr) {
+					starttime = parseInt(new Date().getTime());
+				}, 
+				error: function(xhr){
+					ne++;
+					document.getElementById('fal').innerHTML = ne;
+					nextsync = 3000;
+					if(ne>5) nextsync = 10000;
+					synctimer = setTimeout(dosync, nextsync);
+				}, 
+			success: function(result){
+				today = new Date();
+				client = parseInt(today.getTime());
+				offsetfix = parseInt((starttime-parseInt(result))/10); <!-- deciseconds ???????? -->
+				da++;
+				document.getElementById('suc').innerHTML = da;
+				precision = (client - starttime)/1000;
+				document.getElementById('pre').innerHTML = precision;
+				if(precision >1) document.getElementById('pre').style.color='RED'; else document.getElementById('pre').style.color='GREEN';
+				document.getElementById('ofs').innerHTML = offsetfix/100;
+				document.getElementById('lte').innerHTML = pad(parseInt(totalSeconds/360000)%24) + ':' + pad(parseInt(totalSeconds/6000)%60) + ':' + pad(parseInt(totalSeconds/100)%60);
+					nextsync = 3000;
+					if(da>5) nextsync = 10000;
+					if(da>10) nextsync = 30000;
+					if(precision<0.4 && da>4) nextsync = 60000;
+					if(precision<0.15 && da>4) nextsync = 120000;
+					synctimer = setTimeout(dosync, nextsync);
+			}});
+	}
+
+	function doTime() {
+		var now = new Date();
+		totalSeconds = parseInt((now - startmoment)/10+timeSeconds-offsetfix);
+		if(totalSeconds<0) totalSeconds = (totalSeconds%8640000+8640000)%8640000;
+		
+		if(showdec == true) decsecondsLabel.innerHTML = '.'+(parseInt(totalSeconds/10)%10); else decsecondsLabel.innerHTML ='';
+		secondsLabel.innerHTML = pad(parseInt(totalSeconds/100)%60);
+		minutesLabel.innerHTML = pad(parseInt(totalSeconds/6000)%60);
+		hoursLabel.innerHTML = pad(parseInt(totalSeconds/360000)%24);
+		document.title = hoursLabel.innerHTML + ":" + minutesLabel.innerHTML + ":" + secondsLabel.innerHTML
+	}
+
+	function pad(val) {
+		var valString = val + "";
+		if(valString.length < 2) return "0" + valString; else return valString;
+	}
+
+
+</script>
+<script src="/css/jquery.min.js"></script>
+
   <!--[if lt IE 9]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+
 </head>
 
 <body>
@@ -17,7 +99,7 @@
 
       <nav class="menu_main">
         <ul>
-          <li><a href="/">Home</a></li>
+          <li class="active"><a href="/">Home</a></li>
           <li><a href="/about">About</a></li>
           <li><a href="/gmt/">GMT</a></li>
           <li><a href="/analog">Analog</a></li>
@@ -32,42 +114,131 @@
     <div class="info">
       <article class="hero clearfix">
         <div class="col_100">
-          <p>Navigation: <a href="/">Clock.Zone</a> / <a href="/i">I...</a></p>
+          <h1 style="margin:0;">Exact time clock for your time zone:</h1>
+<div class="col_50"><p style="font-size:72px; margin:0;"><label id="hours" style="font-size:72px;">-</label>:<label id="minutes" style="font-size:72px;">-</label>:<label id="seconds" style="font-size:72px;">-</label><label id="decseconds" style="font-size:36px;">-</label></p>
+
+<div>Decimal seconds: <a href="javascript:showds();">Show</a> / <a href="javascript:hideds();">Hide</a></div>
+</div>
+
+<div class="col_50">
+
+<div>Your clock offset: <span id="ofs">0</span> s</div>
+<div>Sync precision: &plusmn;<span id="pre" style="font-weight:bold;">0</span> s</div>
+<div>Sync succ:<span id="suc">0</span></div>
+<div>Latest sync:<span id="lte">0</span></div>
+<div>Sync fail:<span id="fal">0</span></div>
+</div> 
+
+          <p style="clear:both">One of the most accurate exact time clock on internet (not your computer's or mobile phone clock). Shown digital clock is current time synchronised with our dedicated server time. <br>
+          <span id="momenttime">x</span></p>
+  <script>
+  		document.getElementById('ofs').innerHTML = offsetfix/100;
+		document.getElementById('lte').innerHTML = pad(parseInt(totalSeconds/360000)%24) + ':' + pad(parseInt(totalSeconds/6000)%60) + ':' + pad(parseInt(totalSeconds/100)%60);
+  		document.getElementById('pre').innerHTML = (dtest-today)/1000;
+        var hoursLabel = document.getElementById("hours");
+        var minutesLabel = document.getElementById("minutes");
+        var secondsLabel = document.getElementById("seconds");
+        var decsecondsLabel = document.getElementById("decseconds");
+        setInterval(doTime, 100);
+		synctimer = setTimeout(dosync, 2200);
+		
+		var moment = new Date(client-parseInt(offsetfix*10));
+		document.getElementById('momenttime').innerHTML='In moment when this page was generated, the time was <b>'+moment+'</b>';
+    </script>
 </div>
       </article>
 
 
       <article class="article clearfix">
-        <div class="col_100">
-          <h1>Countries starting with I</h1>
-          <p>List of countries (in ABC order) starting with letter I. Found 10 countries. </p>
+        <div class="col_33">
+          <h2>Clock.zone</h2>
+          <p>Welcome, let me introduce the <a href="http://clock.zone">clock.zone</a>. My main goal was to build a website where you can find <strong>real exact time</strong>. Why? Most of the applications or websites are showing time from your device clock. Sometimes it may be late or ahead (sometimes just few seconds, sometime minutes). This clock shows time from our dedicated server synchronised with atomic clock.<br>
+          More details and <strong>demonstration video </strong>you can find on <a href="/about">this page</a>. </p>
+          <p>If you find time zone (by region and city or by country), exact <strong>local time clock</strong> will be visible on that page. You can set this clock to run in background or place it on your website as widget.</p>
+<p>Thank you for using clock.zone! </p>
+          <p>Igor Gaspar, PhD student</p>
         </div>
-        <div class="clearfix"></div>
-        
-        <div class="col_50">
+
+        <div class="col_33">
+          <h2>Time zones by region/city:</h2>
           <ul class="biglink" style="font-size:18px;">
-<li><a href="iceland">Iceland</a> (1 tz.)</li>
-<li><a href="india">India</a> (1 tz.)</li>
-<li><a href="indonesia">Indonesia</a> (4 tz.)</li>
-<li><a href="iran">Iran</a> (1 tz.)</li>
-<li><a href="iraq">Iraq</a> (1 tz.)</li>
-<li><a href="ireland">Ireland</a> (1 tz.)</li>
-<li><a href="isle-of-man">Isle of Man</a> (1 tz.)</li>
-<li><a href="israel">Israel</a> (1 tz.)</li>
-<li><a href="italy">Italy</a> (1 tz.)</li>
-<li><a href="ivory-coast">Ivory Coast</a> (1 tz.)</li>
-	</ul>
+<li><a href="/africa/">Africa</a></li>
+<li><a href="/america/">America</a></li>
+<li><a href="/antarctica/">Antarctica</a></li>
+<li><a href="/arctic/">Arctic</a></li>
+<li><a href="/asia/">Asia</a></li>
+<li><a href="/atlantic/">Atlantic</a></li>
+<li><a href="/australia/">Australia</a></li>
+<li><a href="/europe/">Europe</a></li>
+<li><a href="/indian/">Indian</a></li>
+<li><a href="/pacific/">Pacific</a></li>
+<li><a href="/utc/">UTC</a></li>
+          </ul>
+        </div>
+
+        <div class="col_33">
+          <h2>Search time zone by country</h2>
+          <p>You can start searching your time zone clock by clicking on the first letter of the country:</p>
+          <div class="biglink">
+<a href="/a">A</a> 
+<a href="/b">B</a> 
+<a href="/c">C</a> 
+<a href="/d">D</a> 
+<a href="/e">E</a> 
+<a href="/f">F</a> 
+<a href="/g">G</a> 
+<a href="/h">H</a> 
+<a href="/i">I</a> 
+<a href="/j">J</a> 
+<a href="/k">K</a> 
+<a href="/l">L</a> 
+<a href="/m">M</a> 
+<a href="/n">N</a> 
+<a href="/o">O</a> 
+<a href="/p">P</a> 
+<a href="/q">Q</a> 
+<a href="/r">R</a> 
+<a href="/s">S</a> 
+<a href="/t">T</a> 
+<a href="/u">U</a> 
+<a href="/v">V</a> 
+<a href="/w">W</a> 
+<a href="/y">Y</a> 
+<a href="/z">Z</a> 
+</div>
+<h2>New: time clocks sorted by GMT offset</h2>
+<p>Search time zone by GMT offset, for example: <a href="/gmt/+2">GMT+2</a>, <a href="/gmt/-5">GMT-5</a> etc.Go to <a href="/gmt/">GMT offset list</a> page. </p>
+        </div>
+
+        <div class="clearfix" style="clear:both;"></div>
+        
+        <div class="col_50">
+        <h1>Main advantages of clock.zone</h1>
+          <ul>
+            <li><strong>Accurate exact time</strong> from our server, not your device's clock</li>
+            <li>Prefer <strong>fast loading</strong> more than complicated design (I hope, mobile phone users will appreciate it)</li>
+           <li><strong>Local time</strong> for 400+ time zones</li>
+             <li>Few details about chosen time zone (like <strong>location</strong>, <strong>daylight saving time</strong> etc.)</li>
+             <li><strong>Clock widget </strong>for websites (if you have clients world wide, you can place this local time clock widget, so visitors can know what is the time in your region). Don't forget, most of the widgets on internet show only visitor's local time (more details on <a href="/widget/">clock widget</a> page). </li>
+             <li>Online <strong>analog and digital </strong>clocks with stylized backgrounds</li>
+             <li>Useful time tools</li>
+             <li>It's <strong>free</strong> (forever)        </li>
+          </ul>
         </div>
         
         <div class="col_50">
-          <h2>Support the webmaster</h2>
+          <h2>Place for ads(?)</h2>
 
-          <p>If you like clock.zone, please, support me. That's one small click for man, one giant spiritual support for me :-) </p>
-</div>
+          <p>No, I don't plan to put ads on clock.zone, I hope I will get enough donations to cover domain and hosting fees. If not, then I have to place few ad boxes in future, but only on this site. All CLOCK WIDGETS will always stay ad-free. </p>
+
+          <p class="warning">Read <a href="/termsofuse">terms of use</a> if you want to use clock.zone</p>
+          <p class="success"><a href="/contact">Buy me a coffee</a>, so I can stay up, and keep coding</p>
+          <p class="message">This site don't use cookies (as long as it doesn't contain ads)<code></code></p>
+          <p>Your feedback or support is welcome. (LIKE, Share, ..)</p>
+        </div>
 
         <div class="clearfix"></div>
-    <hr>
-<p>Please, click on country name to get list of time zones. </p>
+
 
       </article>
     </div>
