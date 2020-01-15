@@ -1,15 +1,23 @@
 #!/bin/sh
 
+a="/$0"; a=${a%/*}; a=${a:-.}; a=${a#/}/; HERE=$(cd $a; pwd)
 PORT=${1:-"8890"}
-echo "Starting httpd at http://localhost:$PORT"
+MYHOST=${2:-"clock.mysite.eu.org"}
+{
+echo "Starting httpd at http://127.0.0.1:$PORT"
 echo
 echo "Example Caddy configuration:"
+} 1>&2
 cat <<EOF
-clock.mysite.eu.org {
+$MYHOST {
   proxy / http://127.0.0.1:$PORT {
     transparent
   }
   gzip
 }
 EOF
-httpd -c httpd.conf -f -p $PORT
+httpd -c httpd.conf \
+  -fvv -p 127.0.0.1:$PORT \
+  -h $HERE
+
+#  -u nobody
