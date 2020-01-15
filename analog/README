@@ -1,0 +1,2 @@
+When there is no index.html, the cgi-bin/index.cgi will be used.
+This is perfect fit for this - analog - dir.
