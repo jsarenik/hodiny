@@ -7,8 +7,6 @@ echo
 eval $(echo "$QUERY_STRING"|awk -F'&' '{for(i=1;i<=NF;i++){print $i}}')
 MYTZ=$(/busybox/httpd -d "$tz")
 test -n "$1" && MYTZ=$1
-#echo var tz=$MYTZ
-#echo $QUERY_STRING
 
 TIMESTAMP=$(/busybox/timestamp)
 HMSTS=$(echo $TIMESTAMP | /busybox/sed 's/......$//')
