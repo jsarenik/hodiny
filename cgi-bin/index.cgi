@@ -123,7 +123,7 @@ cat <<EOF
 	}
 
 	function dosync() {
-			$.ajax({url: "/css/gettime2.php?tz=$TZ",cache:false, timeout:1800, 
+			$.ajax({url: "/css/gettime2.php?tz=$MYTZ",cache:false, timeout:1800, 
 				beforeSend: function(xhr) {
 					starttime = parseInt(new Date().getTime());
 				}, 
