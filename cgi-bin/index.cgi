@@ -34,6 +34,7 @@ CONT_ONLY=$(echo ${CONT##/} | cut -d/ -f1)
 
 PAIRC=$(echo $PAIR | cut -d/ -f2)
 PAIRC=$(tocapitals $PAIRC)
+NICE=$(TZ=$MYTZ /busybox/date "+%A, %d %B %Y (%I:%M %p)" | sed 's/(0/(/')
 
 CONTINENT=$(echo ${CONT##/} | cut -d/ -f1)
 CONTINENT=$(tocapitals $CONTINENT)
@@ -212,7 +213,7 @@ This analog clock is also showing accurate exact time from our server (not your 
 
 
           
-          <p>In page creation moment, exact local time was <strong>Thursday, 16 January 2020 (5:53 AM)</strong> in <strong>$MYTZ</strong> timezone.</p>
+          <p>In page creation moment, exact local time was <strong>$NICE</strong> in <strong>$MYTZ</strong> timezone.</p>
           <p>This is exact time analog clock for <strong>$MYTZ</strong> time zone, synchronized with time on clock.zone dedicated server. Second-hand always jumps on the beginning of the second. Precision of the time synchronisation can be seen next to the clock (Sync precision). </p>
           <p>&nbsp;</p>
 </div>
