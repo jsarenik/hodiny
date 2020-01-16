@@ -9,7 +9,7 @@ eval $(echo "$QUERY_STRING"|awk -F'&' '{for(i=1;i<=NF;i++){print $i}}')
 test -z "$tz" && exec cat index-old.html
 
 tocapitals() {
-  WORDS=$(echo $* | tr - ' ')
+  WORDS=$(echo ${*/-/ })
   RESULT=""
   for i in $WORDS
   do
@@ -22,25 +22,28 @@ tocapitals() {
   echo $RESULT
 }
 
-MYTZ=$(/busybox/httpd -d "$tz")
-MYN=${MYTZ##*/}
-MYTL=$(echo ${MYN} | tr _ - | tr '[A-Z]' '[a-z]')
+MYTZ=$(/busybox/httpd -d "$tz") # Asia/Tokyo
+MYN=${MYTZ##*/}                 # See in the end
+
+# Used for grepping pairs
+MYTL=$(echo ${MYN/_/-} | tr '[A-Z]' '[a-z]')
 PAIR=$(grep $MYTL $HERE/pairs.txt | cut -d: -f1)
-MYTL_FULL=$(grep $MYTL $HERE/pairs.txt | cut -d: -f2)
 GMTDIR=$(grep $MYTL $HERE/gmtpairs.txt | cut -d: -f1)
 GMTLABEL="GMT$(echo $GMTDIR | cut -d/ -f2)"
-CONT=$(grep $MYTL $HERE/pairs.txt | cut -d: -f2)
-CONT_ONLY=$(echo ${CONT##/} | cut -d/ -f1)
+
+CONT=$(grep $MYTL $HERE/pairs.txt | cut -d: -f2) # Continent (see below)
+CONTDIR=$(echo ${CONT##/} | cut -d/ -f1) # Continent path
 
 PAIRC=$(echo $PAIR | cut -d/ -f2)
-PAIRC=$(tocapitals $PAIRC)
-NICE=$(TZ=$MYTZ /busybox/date "+%A, %d %B %Y (%I:%M %p)" | sed 's/(0/(/')
+PAIRC=$(tocapitals $PAIRC) # Country
+CONT=$(echo ${CONT##/} | cut -d/ -f1)
+CONT=$(tocapitals $CONT) # Continent
 
-CONTINENT=$(echo ${CONT##/} | cut -d/ -f1)
-CONTINENT=$(tocapitals $CONTINENT)
-CONTC=$(echo ${CONT##/} | cut -d/ -f2)
-CONTC=$(tocapitals $CONTC)
-MYN=${MYN/_/ }
+MYTL=$(grep $MYTL $HERE/pairs.txt | cut -d: -f2)
+MYN=${MYN/_/ } # Tokyo
+
+# Nice timestamp in words, Friday, 17 January 2020 (4:08 AM)
+NICE=$(TZ=$MYTZ /busybox/date "+%A, %d %B %Y (%I:%M %p)" | sed 's/(0/(/')
 
 cat <<EOF
 <!doctype html>
@@ -221,9 +224,9 @@ This analog clock is also showing accurate exact time from our server (not your 
         <div class="col_50">
           <h2>$MYN location?</h2>
           <p>Country: <a href="/$PAIR/">$PAIRC</a></p>
-          <p>Continent: <a href="/${CONT_ONLY}/">$CONTINENT</a></p>
+          <p>Continent: <a href="/${CONTDIR}/">$CONT</a></p>
           <p>Difference from Greenwich mean time: <a href="/$GMTDIR">$GMTLABEL</a></p>
-          <p>Position of $MYN on time zone map you can find on <a href="$MYTL_FULL">$MYN digital clock</a> page.</p>
+          <p>Position of $MYN on time zone map you can find on <a href="$MYTL">$MYN digital clock</a> page.</p>
           <h2>Support the webmaster</h2>
 
           <p>If you like clock.zone, please, support me. That's one small click for man, one giant spiritual support for me :-) </p>
