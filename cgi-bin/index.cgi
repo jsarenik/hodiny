@@ -206,7 +206,7 @@ This analog clock is also showing accurate exact time from our server (not your 
 
 
       <article class="article clearfix">
-          <p>Navigation: <a href="/">Clock.Zone</a> / <a href="/analog">Analog clock</a> / <a href="/analog?tz=$MYTZ">$MYTZ</a> </p>
+          <p>Navigation: <a href="/">Clock.Zone</a> / <a href="/analog">Analog clock</a> / <a href="/analog?tz=$MYTZ">$PAIRC</a> </p>
         <div class="col_50">
           <h1>Analog clock for $MYTZ time zone</h1>
 
