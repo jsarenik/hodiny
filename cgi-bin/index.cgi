@@ -6,7 +6,7 @@ echo "Content-Type: text/html; charset=UTF-8"
 echo
 
 eval $(echo "$QUERY_STRING"|awk -F'&' '{for(i=1;i<=NF;i++){print $i}}')
-test -z "$tz" && { cat index-old.html; exit; }
+test -z "$tz" && exec cat index-old.html
 
 tocapitals() {
   WORDS=$(echo $* | tr - ' ')
