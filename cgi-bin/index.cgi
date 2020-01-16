@@ -159,7 +159,7 @@ cat <<EOF
 
 <script src="/css/jquery.min.js"></script>
   
-  <!--[if lt IE 9]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
+  <!--[if lt IE 9]><script src="/css/html5shiv.min.js"></script><![endif]-->
 </head>
 
 <body>
