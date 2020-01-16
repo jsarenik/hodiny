@@ -1,5 +1,6 @@
 #!/busybox/sh
 
+a="/$0"; a=${a%/*}; a=${a:-.}; a=${a#/}/; HERE=$(cd $a; pwd)
 export PATH=/busybox
 echo "Content-Type: text/html; charset=UTF-8"
 echo
@@ -7,7 +8,38 @@ echo
 eval $(echo "$QUERY_STRING"|awk -F'&' '{for(i=1;i<=NF;i++){print $i}}')
 test -z "$tz" && { cat index-old.html; exit; }
 
+tocapitals() {
+  WORDS=$(echo $* | tr - ' ')
+  RESULT=""
+  for i in $WORDS
+  do
+    i_=$(echo $i | sed 's/^\(.\)/\1:/')
+    i_A=$(echo $i_ | cut -d: -f1 | tr '[a-z]' '[A-Z]')
+    i_B=$(echo $i_ | cut -d: -f2)
+    test -z "$RESULT" && { RESULT="${i_A}${i_B}"; continue; }
+    RESULT="${RESULT} ${i_A}${i_B}"
+  done
+  echo $RESULT
+}
+
 MYTZ=$(/busybox/httpd -d "$tz")
+MYN=${MYTZ##*/}
+MYTL=$(echo ${MYN} | tr _ - | tr '[A-Z]' '[a-z]')
+PAIR=$(grep $MYTL $HERE/pairs.txt | cut -d: -f1)
+MYTL_FULL=$(grep $MYTL $HERE/pairs.txt | cut -d: -f2)
+GMTDIR=$(grep $MYTL $HERE/gmtpairs.txt | cut -d: -f1)
+GMTLABEL="GMT$(echo $GMTDIR | cut -d/ -f2)"
+CONT=$(grep $MYTL $HERE/pairs.txt | cut -d: -f2)
+CONT_ONLY=$(echo ${CONT##/} | cut -d/ -f1)
+
+PAIRC=$(echo $PAIR | cut -d/ -f2)
+PAIRC=$(tocapitals $PAIRC)
+
+CONTINENT=$(echo ${CONT##/} | cut -d/ -f1)
+CONTINENT=$(tocapitals $CONTINENT)
+CONTC=$(echo ${CONT##/} | cut -d/ -f2)
+CONTC=$(tocapitals $CONTC)
+MYN=${MYN/_/ }
 
 cat <<EOF
 <!doctype html>
@@ -17,7 +49,7 @@ cat <<EOF
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <link href="favicon.ico" rel="shortcut icon">
   <link rel="stylesheet" href="/css/style.css">
-  <title>Tokyo analog clock</title>
+  <title>$GMT $CONT_ONLY analog clock</title>
 <script>var today = new Date();</script>
 <script src="/css/gettime.php?tz=$MYTZ"></script>
 <script type="text/javascript" src="/css/raphael-min.js"></script>
@@ -91,7 +123,7 @@ cat <<EOF
 	}
 
 	function dosync() {
-			$.ajax({url: "/css/gettime2.php?tz=Asia/Tokyo",cache:false, timeout:1800, 
+			$.ajax({url: "/css/gettime2.php?tz=$TZ",cache:false, timeout:1800, 
 				beforeSend: function(xhr) {
 					starttime = parseInt(new Date().getTime());
 				}, 
@@ -152,7 +184,7 @@ cat <<EOF
     <div class="info">
       <article class="hero clearfix">
         <div class="col_100">
-        <h1 style="margin:0;">Exact time analog clock for Tokyo</h1>
+        <h1 style="margin:0;">Exact time analog clock for $MYN</h1>
             <div class="col_50">
         <div id="clock_id"></div>
             </div>
@@ -162,7 +194,7 @@ cat <<EOF
                 <div>Sync succ:<span id="suc">0</span></div>
                 <div>Latest sync:<span id="lte">0</span></div>
                 <div>Sync fail:<span id="fal">0</span></div>
-                <div style="margin-top:10px;">Tokyo time digital clock: <span id="exacttime"></span></div>
+                <div style="margin-top:10px;">$MYN time digital clock: <span id="exacttime"></span></div>
             </div>
 
 <p style="clear:both">Settings: seconds <a href="javascript:hideds();">Soft</a> / <a href="javascript:showds();">Jump</a><br>
@@ -174,23 +206,23 @@ This analog clock is also showing accurate exact time from our server (not your 
 
 
       <article class="article clearfix">
-          <p>Navigation: <a href="/">Clock.Zone</a> / <a href="/analog">Analog clock</a> / <a href="/analog?tz=$MYTZ">Japan</a> </p>
+          <p>Navigation: <a href="/">Clock.Zone</a> / <a href="/analog">Analog clock</a> / <a href="/analog?tz=$MYTZ">$MYTZ</a> </p>
         <div class="col_50">
-          <h1>Analog clock for Asia/Tokyo time zone</h1>
+          <h1>Analog clock for $MYTZ time zone</h1>
 
 
           
-          <p>In page creation moment, exact local time was <strong>Thursday, 16 January 2020 (5:53 AM)</strong> in <strong>Asia/Tokyo</strong> timezone.</p>
-          <p>This is exact time analog clock for <strong>Asia/Tokyo</strong> time zone, synchronized with time on clock.zone dedicated server. Second-hand always jumps on the beginning of the second. Precision of the time synchronisation can be seen next to the clock (Sync precision). </p>
+          <p>In page creation moment, exact local time was <strong>Thursday, 16 January 2020 (5:53 AM)</strong> in <strong>$MYTZ</strong> timezone.</p>
+          <p>This is exact time analog clock for <strong>$MYTZ</strong> time zone, synchronized with time on clock.zone dedicated server. Second-hand always jumps on the beginning of the second. Precision of the time synchronisation can be seen next to the clock (Sync precision). </p>
           <p>&nbsp;</p>
 </div>
         
         <div class="col_50">
-          <h2>Tokyo location?</h2>
-          <p>Country: <a href="/japan">Japan</a></p>
-          <p>Continent: <a href="/asia/">Asia</a></p>
-          <p>Difference from Greenwich mean time: <a href="/gmt/+9">GMT+9</a></p>
-          <p>Position of Tokyo on time zone map you can find on <a href="/asia/tokyo">Tokyo digital clock</a> page.</p>
+          <h2>$MYN location?</h2>
+          <p>Country: <a href="/$PAIR/">$PAIRC</a></p>
+          <p>Continent: <a href="/${CONT_ONLY}/">$CONTINENT</a></p>
+          <p>Difference from Greenwich mean time: <a href="/$GMTDIR">$GMTLABEL</a></p>
+          <p>Position of $MYN on time zone map you can find on <a href="$MYTL_FULL">$MYN digital clock</a> page.</p>
           <h2>Support the webmaster</h2>
 
           <p>If you like clock.zone, please, support me. That's one small click for man, one giant spiritual support for me :-) </p>
