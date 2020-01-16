@@ -53,7 +53,7 @@ cat <<EOF
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <link href="favicon.ico" rel="shortcut icon">
   <link rel="stylesheet" href="/css/style.css">
-  <title>$GMT $CONT_ONLY analog clock</title>
+  <title>$MYN analog clock</title>
 <script>var today = new Date();</script>
 <script src="/css/gettime.php?tz=$MYTZ"></script>
 <script type="text/javascript" src="/css/raphael-min.js"></script>
