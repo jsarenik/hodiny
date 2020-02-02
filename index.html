@@ -12,7 +12,6 @@
 <script>
 	var client = parseInt(today.getTime());
 	var offsetfix = parseInt((client-server)/10); <!-- deciseconds -->
-	var showdec = true;
 
 	var h = today.getHours();
 	var mi = today.getMinutes();
@@ -28,10 +27,10 @@
 	var starttime = 0;
 
 	function showds() {
-		showdec = true;
+		document.getElementById('decs').style.visibility='visible';
 	}
 	function hideds() {
-		showdec = false;
+		document.getElementById('decs').style.visibility='hidden';
 	}
 
 	function dosync() {
@@ -42,8 +41,7 @@
 				error: function(xhr){
 					ne++;
 					document.getElementById('fal').innerHTML = ne;
-					nextsync = 3000;
-					if(ne>5) nextsync = 10000;
+					nextsync = 3000 + 2**ne;
 					synctimer = setTimeout(dosync, nextsync);
 				}, 
 			success: function(result){
@@ -69,9 +67,9 @@
 	function doTime() {
 		var now = new Date();
 		totalSeconds = parseInt((now - startmoment)/10+timeSeconds-offsetfix);
-		if(totalSeconds<0) totalSeconds = (totalSeconds%8640000+8640000)%8640000;
+		totalSeconds = (totalSeconds%8640000+8640000)%8640000;
 		
-		if(showdec == true) decsecondsLabel.innerHTML = '.'+(parseInt(totalSeconds/10)%10); else decsecondsLabel.innerHTML ='';
+		decsLabel.innerHTML = '.'+(parseInt(totalSeconds/10)%10);
 		secondsLabel.innerHTML = pad(parseInt(totalSeconds/100)%60);
 		minutesLabel.innerHTML = pad(parseInt(totalSeconds/6000)%60);
 		hoursLabel.innerHTML = pad(parseInt(totalSeconds/360000)%24);
@@ -112,7 +110,7 @@
       <article class="hero clearfix">
         <div class="col_100">
           <h1 style="margin:0;">Exact time clock for your time zone:</h1>
-<div class="col_50"><p style="font-size:72px; margin:0;"><label id="hours" style="font-size:72px;">-</label>:<label id="minutes" style="font-size:72px;">-</label>:<label id="seconds" style="font-size:72px;">-</label><label id="decseconds" style="font-size:36px;">-</label></p>
+<div class="col_50"><p style="font-size:72px; margin:0;"><label id="hours" style="font-size:72px;">-</label>:<label id="minutes" style="font-size:72px;">-</label>:<label id="seconds" style="font-size:72px;">-</label><label id="decs" style="font-size:36px;">-</label></p>
 
 <div>Decimal seconds: <a href="javascript:showds();">Show</a> / <a href="javascript:hideds();">Hide</a></div>
 </div>
@@ -135,7 +133,7 @@
         var hoursLabel = document.getElementById("hours");
         var minutesLabel = document.getElementById("minutes");
         var secondsLabel = document.getElementById("seconds");
-        var decsecondsLabel = document.getElementById("decseconds");
+        var decsLabel = document.getElementById("decs");
         setInterval(doTime, 100);
 		synctimer = setTimeout(dosync, 2200);
 		
