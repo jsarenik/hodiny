@@ -49,7 +49,7 @@
 			success: function(result){
 				today = new Date();
 				client = parseInt(today.getTime());
-				offsetfix = parseInt((starttime-parseInt(result))/10); <!-- deciseconds ???????? -->
+				offsetfix = parseInt((starttime-parseInt(result))/100);
 				da++;
 				document.getElementById('suc').innerHTML = da;
 				precision = (client - starttime)/1000;
