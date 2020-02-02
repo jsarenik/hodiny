@@ -1,7 +1,7 @@
 #!/busybox/sh
 
 export PATH=/busybox
-echo "Content-Type: text/html; charset=UTF-8"
+echo "Content-Type: text/javascript"
 echo
 
 eval $(echo "$QUERY_STRING"|awk -F'&' '{for(i=1;i<=NF;i++){print $i}}')
