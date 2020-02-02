@@ -79,15 +79,12 @@
 	}
 
 	function pad(val) {
-		var valString = val + "";
-		if(valString.length < 2) return "0" + valString; else return valString;
+		var str = "0" + val;
+		return (str.length===2 ? str : str.substring(1));
 	}
 
 
 </script>
-<script src="/css/jquery.min.js"></script>
-
-  <!--[if lt IE 9]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 
 </head>
 
@@ -255,5 +252,7 @@
     </footer>
 
   </div>
+  <script src="/css/jquery.min.js"></script>
+  <!--[if lt IE 9]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 </body>
 </html>
