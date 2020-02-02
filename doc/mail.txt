@@ -1,0 +1,53 @@
+Igor Gaspar
+Jan 20, 2020, 9:43 PM
+to me
+
+Hello Ján,
+Yes, you can use codes, they are under Creative Commons Attributions
+4.0 license.
+Have fun.
+Best regards,
+Igor
+
+This is content of the css/timeapi.php:
+<?php
+$server = 1000 * microtime(true);
+echo('var server = '.$server.";\n");
+echo('var dtest = new Date(); ');
+?>
+
+and this for timeapi2.php:
+<?php
+$server = 1000 * microtime(true);
+echo($server);
+?>
+
+gettime.php:
+
+<?php
+$timestamp = time();
+date_default_timezone_set($_GET['tz']);
+$ORA=date('H',$timestamp); //hours
+$PERC=date('i',$timestamp); //minutes
+$MPERC=date('s',$timestamp); //seconds
+$micro_date = microtime();
+$date_array = explode(" ",$micro_date);
+$DSEC = floor($date_array[0] * 100); //decimal seconds
+$dsecs = $ORA*360000 + $PERC*6000 + $MPERC*100 + $DSEC;
+echo('var curds = '.$dsecs.";\n");
+echo('var dtest = new Date(); ');
+?>
+
+gettime2.php:
+<?php
+$timestamp = time();
+date_default_timezone_set($_GET['tz']);
+$ORA=date('H',$timestamp); //hrs
+$PERC=date('i',$timestamp); //mins
+$MPERC=date('s',$timestamp); //sec
+$micro_date = microtime();
+$date_array = explode(" ",$micro_date);
+$DSEC = floor($date_array[0] * 100); //decimal sec
+$dsecs = $ORA*360000 + $PERC*6000 + $MPERC*100 + $DSEC;
+echo($dsecs);
+?>
