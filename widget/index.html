@@ -19,7 +19,7 @@
 	  var fontcol = document.getElementById('fontcol').value;
 	  bgcol = bgcol.replace("#", ""); 
 	  fontcol = fontcol.replace("#", ""); 
-	  var s='<iframe src="http://clock.zone/widget/digit.php?timezone='+timezone+'&showsec='+showsec+'&weekday='+weekday+'&h24='+h24+'&bgcol='+bgcol+'&fontcol='+fontcol+'&title='+title+'" width="120" height="100" frameborder="1"></iframe>';
+	  var s='<iframe src="' + window.location.protocol + '//' + window.location.host + '/widget/digit.php?timezone='+timezone+'&showsec='+showsec+'&weekday='+weekday+'&h24='+h24+'&bgcol='+bgcol+'&fontcol='+fontcol+'&title='+title+'" width="120" height="100" frameborder="1"></iframe>';
 	  
 	  document.getElementById('clockcode').value=s;
   }
@@ -34,7 +34,7 @@
   <div class="container">
 
     <header class="header clearfix">
-      <div class="logo"><a href="http://clock.zone/">Clock.Zone</a></div>
+      <div class="logo"><a href="/">Clock.Zone</a></div>
 
       <nav class="menu_main">
         <ul>
@@ -63,10 +63,10 @@
           <h1>Clock widgets</h1>
           <p>Add simple clock widget for your website. Clock widgets will always show exact time for chosen time zone, independent form visitor's location. This is useful if you want to show timezone for your location, so world-wide clients will know when to call you, so you can avoid 3AM morning calls ;-) notice: Most of the widget clocks on internet shows only visitor's local time (local time from their device, not real exact time). </p>
           <p>
-          <iframe src="http://clock.zone/widget/digit.php?timezone=Europe/London&showsec=1&weekday=1&h24=1&bgcol=903&fontcol=FF0&title=Time in London" width="120" height="90" frameborder="1"></iframe>
+          <iframe src="/widget/digit.php?timezone=Europe/London&showsec=1&weekday=1&h24=1&bgcol=903&fontcol=FF0&title=Time in London" width="120" height="90" frameborder="1"></iframe>
           </p>
           <p>How to add clock widget?<br>
-            1.) Find the <strong>timezone</strong> (start from <a href="http://clock.zone/">start page</a>, find time zone and copy the timezone name)<br>
+            1.) Find the <strong>timezone</strong> (start from <a href="/">start page</a>, find time zone and copy the timezone name)<br>
             <img src="/images/tz_copy.gif" width="300" height="227"><br>
             2.) Fill the form on this page, enter: title, time zone, width... and click &quot;Generate code&quot;</p>
           <p>3.) Generated code copy-paste to your web-page on place you want that clock to appear.        </p>
