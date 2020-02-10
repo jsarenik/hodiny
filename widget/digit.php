@@ -1,7 +1,7 @@
 #!/busybox/sh
 
-a="/$0"; a=${a%/*}; a=${a:-.}; a=${a#/}/; HERE=$(cd $a; pwd)
-export PATH=/busybox
+echo "Content-Type: text/html"
+echo
 
 eval $(echo "$QUERY_STRING"|awk -F'&' '{for(i=1;i<=NF;i++){print $i}}')
 
@@ -15,9 +15,6 @@ TW=24
 test "$h24" -eq 0 && TW=12 || TWC="//"
 test "$weekday" -eq 1 && WEEKDAY='<div id="weekday" >3</div>' || DAYC="//"
 test "$showsec" -eq 0 && { SECVIS="visibility: hidden;"; SEC="//"; }
-
-echo "Content-Type: text/html"
-echo
 
 cat <<EOF
 <!doctype html>
