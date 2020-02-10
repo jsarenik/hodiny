@@ -1,6 +1,7 @@
 #!/bin/sh
 
 a="/$0"; a=${a%/*}; a=${a:-.}; a=${a#/}/; HERE=$(cd $a; pwd)
+cd $HERE
 PORT=${1:-"8890"}
 MYHOST=${2:-"clock.mysite.eu.org"}
 {
@@ -16,6 +17,7 @@ $MYHOST {
   gzip
 }
 EOF
+./genmin.sh
 httpd -c httpd.conf \
   -fvv -p 127.0.0.1:$PORT \
   -h $HERE
