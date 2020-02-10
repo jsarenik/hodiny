@@ -13,5 +13,4 @@ MLS=$(echo $TIMESTAMP | /busybox/sed -E 's/.*(..)....$/\1/')
 CURDS="+%H*360000+%M*6000+%S*100+$MLS"
 CURDS=$(TZ=$MYTZ /busybox/date -d "@$HMSTS" $CURDS | /busybox/bc)
 
-echo "var curds = $CURDS;"
-echo "var dtest = new Date();"
+echo "var curds = $CURDS; var dtest = new Date();"
