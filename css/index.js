@@ -1,16 +1,12 @@
-var today = new Date();
-var client = today.getTime();
-var offsetfix = client-server;
-var timeSeconds = today.getTime();
 var da = 0;
 var ne = 0;
 var syncstart = 0;
 
 function showds() {
-	document.getElementById('decs').style.visibility='visible';
+	decsLabel.style.visibility='visible';
 }
 function hideds() {
-	document.getElementById('decs').style.visibility='hidden';
+	decsLabel.style.visibility='hidden';
 }
 function dosync() {
   $.ajax({url: "/css/timeapi2.php",cache:false, timeout:1800,
@@ -19,21 +15,21 @@ function dosync() {
   },
   error: function(xhr){
 	ne++;
-	document.getElementById('fal').innerHTML = ne;
+	falLabel.innerHTML = ne;
 	nextsync = 3000 + ne*2000;
 	synctimer = setTimeout(dosync, nextsync);
   },
   success: function(result){
 	today = new Date();
-	client = today.getTime();
-	offsetfix = syncstart-result;
+	offsetfix = Math.round(syncstart-result);
 	da++;
-	document.getElementById('suc').innerHTML = da;
-	precision = (client - syncstart)/1000;
-	document.getElementById('pre').innerHTML = precision;
-	if(precision >1) document.getElementById('pre').style.color='RED'; else document.getElementById('pre').style.color='GREEN';
-	document.getElementById('ofs').innerHTML = offsetfix;
-	document.getElementById('lte').innerHTML = hms;
+	sucLabel.innerHTML = da;
+	precision = (today.getTime() - syncstart)/1000;
+	preLabel.innerHTML = precision;
+	if(precision >1) preLabel.style.color='RED';
+	  else preLabel.style.color='GREEN';
+	ofsLabel.innerHTML = offsetfix/1000;
+	lteLabel.innerHTML = hms;
 	nextsync = 3000;
 	if(da>5) nextsync = 10000;
 	if(da>10) nextsync = 30000;
@@ -46,11 +42,11 @@ function doTime() {
   var now = new Date().getTime();
   totalSeconds = now-offsetfix;
 
-  decsLabel.innerHTML = '.'+(totalSeconds/10)%10;
-  s = pad(totalSeconds/100)%60;
-  m = pad(totalSeconds/6000)%60;
-  h = pad(totalSeconds/360000)%24;
-  hms = h + ':' + m + ':' + s;
+  decsLabel.innerHTML = '.'+Math.round(totalSeconds/100)%10;
+  s = pad(Math.round(totalSeconds/1000)%60);
+  m = pad(Math.round(totalSeconds/60000)%60);
+  h = pad(Math.round(totalSeconds/3600000)%24);
+  hms = h+':'+m+':'+s;
   document.title = hms;
   secondsLabel.innerHTML = s;
   minutesLabel.innerHTML = m;
