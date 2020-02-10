@@ -42,27 +42,13 @@
 
 <div>Your clock offset: <span id="ofs">0</span> s</div>
 <div>Sync precision: &plusmn;<span id="pre" style="font-weight:bold;">0</span> s</div>
-<div>Sync succ:<span id="suc">0</span></div>
-<div>Latest sync:<span id="lte">0</span></div>
-<div>Sync fail:<span id="fal">0</span></div>
+<div>Latest sync at <span id="lte">not yet</span></div>
+<div>Sync success count: <span id="suc">0</span></div>
+<div>Sync failure count: <span id="fal">0</span></div>
 </div> 
 
           <p style="clear:both">One of the most accurate exact time clock on internet (not your computer's or mobile phone clock). Shown digital clock is current time synchronised with our dedicated server time. <br>
           <span id="momenttime">x</span></p>
-  <script>
-  		document.getElementById('ofs').innerHTML = offsetfix/100;
-		document.getElementById('lte').innerHTML = pad(parseInt(totalSeconds/360000)%24) + ':' + pad(parseInt(totalSeconds/6000)%60) + ':' + pad(parseInt(totalSeconds/100)%60);
-  		document.getElementById('pre').innerHTML = (dtest-today)/1000;
-        var hoursLabel = document.getElementById("hours");
-        var minutesLabel = document.getElementById("minutes");
-        var secondsLabel = document.getElementById("seconds");
-        var decsLabel = document.getElementById("decs");
-        setInterval(doTime, 100);
-		synctimer = setTimeout(dosync, 2200);
-		
-		var moment = new Date(client-parseInt(offsetfix*10));
-		document.getElementById('momenttime').innerHTML='In moment when this page was generated, the time was <b>'+moment+'</b>';
-    </script>
 </div>
       </article>
 
@@ -173,6 +159,7 @@
     </footer>
 
   </div>
+  <script src="/css/index-later.min.js"></script>
   <script src="/css/jquery.min.js"></script>
   <!--[if lt IE 9]><script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script><![endif]-->
 </body>

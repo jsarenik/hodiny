@@ -1,4 +1,4 @@
 #!/bin/sh
 
-uglifyjs css/index.js > css/index.min.js
+./genmin.sh
 rsync -av --delete . hd:clock.zone/
