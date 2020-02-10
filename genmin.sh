@@ -1,4 +1,7 @@
 #!/bin/sh
 
-uglifyjs css/index.js > css/index.min.js
-uglifyjs css/index-later.js > css/index-later.min.js
+u() {
+  uglifyjs $1 -m -c --source-map --output ${1%%.js}.min.js
+}
+
+u css/index.js
