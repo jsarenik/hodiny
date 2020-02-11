@@ -51,7 +51,7 @@ function dosync() {
 } // end of dosync()
 function doTime() {
   var now = new Date().getTime();
-  totalSeconds = now-offsetfix;
+  totalSeconds = now-offsetfix-tzdiff;
 
   decsLabel.innerHTML = '.'+Math.round(totalSeconds/100)%10;
   s = pad(Math.round(totalSeconds/1000)%60);
@@ -70,6 +70,7 @@ function pad(val) {
 
 var offsetfix = 0;
 var today = new Date();
+var tzdiff = today.getTimezoneOffset() * 60000;
 document.getElementById('momenttime').innerHTML='In moment when this page was generated, the time was <b>'+today+'</b>';
 setInterval(doTime, 100);
 var synctimer = setTimeout(dosync, 2200);
