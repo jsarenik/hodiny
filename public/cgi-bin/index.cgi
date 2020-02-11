@@ -22,7 +22,7 @@ tocapitals() {
   echo $RESULT
 }
 
-MYTZ=$(/busybox/httpd -d "$tz") # Asia/Tokyo
+MYTZ=$(httpd -d "$tz") # Asia/Tokyo
 MYN=${MYTZ##*/}                 # See in the end
 
 # Used for grepping pairs
@@ -43,7 +43,7 @@ MYTL=$(grep $MYTL $HERE/pairs.txt | cut -d: -f2)
 MYN=${MYN/_/ } # Tokyo
 
 # Nice timestamp in words, Friday, 17 January 2020 (4:08 AM)
-NICE=$(TZ=$MYTZ /busybox/date "+%A, %d %B %Y (%I:%M %p)" | sed 's/(0/(/')
+NICE=$(TZ=$MYTZ date "+%A, %d %B %Y (%I:%M %p)" | sed 's/(0/(/')
 
 cat <<EOF
 <!doctype html>
