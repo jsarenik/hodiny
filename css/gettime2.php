@@ -5,10 +5,10 @@ echo "Content-Type: text/javascript"
 echo
 
 eval $(echo "$QUERY_STRING"|awk -F'&' '{for(i=1;i<=NF;i++){print $i}}')
-MYTZ=$(/busybox/httpd -d "$tz")
+MYTZ=$(httpd -d "$tz")
 
-TIMESTAMP=$(/busybox/timestamp)
-HMSTS=$(echo $TIMESTAMP | /busybox/sed 's/......$//')
-MLS=$(echo $TIMESTAMP | /busybox/sed -E 's/.*(..)....$/\1/')
+TIMESTAMP=$(timestamp)
+HMSTS=$(echo $TIMESTAMP | sed 's/......$//')
+MLS=$(echo $TIMESTAMP | sed -E 's/.*(..)....$/\1/')
 CURDS="+%H*360000+%M*6000+%S*100+$MLS"
-TZ=$MYTZ /busybox/date -d "@$HMSTS" $CURDS | /busybox/bc
+TZ=$MYTZ date -d "@$HMSTS" $CURDS | bc
