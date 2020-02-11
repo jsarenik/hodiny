@@ -32,7 +32,7 @@ function dosync() {
   },
   success: function(result){
 	today = new Date();
-	offsetfix = Math.round(syncstart-result);
+	offsetfix = Math.floor(syncstart-result);
 	da++;
 	sucLabel.innerHTML = da;
 	precision = (today.getTime() - syncstart)/1000;
@@ -53,10 +53,10 @@ function doTime() {
   var now = new Date().getTime();
   totalSeconds = now-offsetfix-tzdiff;
 
-  decsLabel.innerHTML = '.'+Math.round(totalSeconds/100)%10;
-  s = pad(Math.round(totalSeconds/1000)%60);
-  m = pad(Math.round(totalSeconds/60000)%60);
-  h = pad(Math.round(totalSeconds/3600000)%24);
+  decsLabel.innerHTML = '.'+Math.floor(totalSeconds/100)%10;
+  s = pad(Math.floor(totalSeconds/1000)%60);
+  m = pad(Math.floor(totalSeconds/60000)%60);
+  h = pad(Math.floor(totalSeconds/3600000)%24);
   hms = h+':'+m+':'+s;
   document.title = hms;
   secondsLabel.innerHTML = s;
