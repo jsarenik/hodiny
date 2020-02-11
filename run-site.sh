@@ -18,8 +18,8 @@ $MYHOST {
 }
 EOF
 ./genmin.sh
-httpd -c httpd.conf \
+httpd -c $HERE/httpd.conf \
   -fvv -p 127.0.0.1:$PORT \
-  -h $HERE
+  -h $HERE/public
 
 #  -u nobody

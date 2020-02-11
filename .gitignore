@@ -1,3 +1,3 @@
 timestamp
-css/*.min.js
-css/*.map
+public/css/index.min.js
+public/css/index.min.js.map
