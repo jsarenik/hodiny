@@ -2,7 +2,6 @@ var hoursLabel = document.getElementById('hours');
 var minutesLabel = document.getElementById('minutes');
 var secondsLabel = document.getElementById('seconds');
 var decsLabel = document.getElementById('decs');
-var decsLabel = document.getElementById('decs');
 var falLabel = document.getElementById('fal');
 var sucLabel = document.getElementById('suc');
 var preLabel = document.getElementById('pre');
