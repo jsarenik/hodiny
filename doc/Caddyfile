@@ -1,0 +1,24 @@
+hodiny.bublina.eu.org clock.bublina.eu.org {
+  root /home/nisim/clock.zone/public
+  proxy /css http://127.0.0.1:8890 {
+    transparent
+    except /css/style.css /css/jquery.min.js /css/raphael-min.js /css/reset.css /css/skin.css /css/index.min.js
+  }
+  proxy /widget http://127.0.0.1:8890 {
+    transparent
+    except /widget/index.html
+  }
+  proxy /analog http://127.0.0.1:8890 {
+    transparent
+  }
+  header /index.html Cache-Control "max-age=2592000"
+  header /favicon.ico Cache-Control "max-age=2592000"
+  header /images Cache-Control "max-age=2592000"
+  header /css/style.css Cache-Control "max-age=2592000"
+  header /css/reset.css Cache-Control "max-age=2592000"
+  header /css/skin.css Cache-Control "max-age=2592000"
+  header /css/jquery.min.js Cache-Control "max-age=2592000"
+  header /css/raphael-min.js Cache-Control "max-age=2592000"
+  header /css/index.min.js Cache-Control "max-age=2592000"
+  gzip
+}
