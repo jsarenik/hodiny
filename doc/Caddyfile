@@ -14,6 +14,9 @@ hodiny.bublina.eu.org clock.bublina.eu.org {
   proxy /more/digital http://127.0.0.1:8890 {
     transparent
   }
+  proxy /tools/stopwatch http://127.0.0.1:8890 {
+    transparent
+  }
   header /index.html Cache-Control "max-age=2592000"
   header /favicon.ico Cache-Control "max-age=2592000"
   header /images Cache-Control "max-age=2592000"
