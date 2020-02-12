@@ -10,6 +10,7 @@ var sucLabel = document.getElementById('suc');
 var preLabel = document.getElementById('pre');
 var ofsLabel = document.getElementById('ofs');
 var lteLabel = document.getElementById('lte');
+var synctimer = setTimeout(dosync, 2200);
 
 var da = 0;
 var ne = 0;
@@ -65,10 +66,9 @@ function doTime() {
   hoursLabel.innerHTML = h;
 }
 function pad(val) {
-	var str = "0" + val;
-	return (str.length===2 ? str : str.substring(1));
+  var str = "0" + val;
+  return (str.length===2 ? str : str.substring(1));
 }
 
-var synctimer = setTimeout(dosync, 2200);
 document.getElementById('momenttime').innerHTML='In moment when this page was generated, the time was <b>'+today+'</b>';
 setInterval(doTime, 100);
