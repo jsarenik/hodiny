@@ -5,7 +5,7 @@ export PATH=/busybox
 echo "Content-Type: text/html; charset=UTF-8"
 echo
 
-eval $(echo "$QUERY_STRING"|awk -F'&' '{for(i=1;i<=NF;i++){print $i}}')
+eval $(echo ${QUERY_STRING} | grep -o '[a-zA-Z][a-zA-Z0-9]*=[a-zA-Z0-9/]\+')
 test -z "$tz" && exec cat index-old.html
 
 tocapitals() {
