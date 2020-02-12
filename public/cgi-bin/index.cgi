@@ -12,4 +12,5 @@ eval $(echo "$QUERY_STRING" | grep -o '[a-zA-Z][[:alnum:]]*=[-[:alnum:]/_+%]\+')
 case $REQUEST_URI in
   /more/digital/*) . $HERE/digital.sh;;
   /analog/*) . $HERE/analog.sh;;
+  /tools/timestamptodate/*) . $HERE/timestamptodate.sh;;
 esac
