@@ -6,9 +6,10 @@ export PATH=/busybox
 echo "Content-Type: text/html; charset=UTF-8"
 echo
 
-eval $(echo ${QUERY_STRING} | grep -o '[a-zA-Z][a-zA-Z0-9]*=[a-zA-Z0-9/]\+')
+eval $(echo "$QUERY_STRING" | grep -o '[a-zA-Z][[:alnum:]]*=[-[:alnum:]/_+%]\+')
 
 # Shell router
 case $REQUEST_URI in
+  /more/digital/*) . $HERE/digital.sh;;
   /analog/*) . $HERE/analog.sh;;
 esac

@@ -1,6 +1,6 @@
 #!/busybox/sh
 
-test -z "$tz" && exec cat index-old.html
+test -z "$tz" && exec cat analog-notz.html
 
 tocapitals() {
   WORDS=$(echo ${*/-/ })

@@ -3,7 +3,7 @@
 echo "Content-Type: text/html"
 echo
 
-eval $(echo ${QUERY_STRING} | grep -o '[a-zA-Z][a-zA-Z0-9]*=[a-zA-Z0-9/]\+')
+eval $(echo "$QUERY_STRING" | grep -o '[a-zA-Z][[:alnum:]]*=[-[:alnum:]/_+%]\+')
 
 test -z "$title" && title="Clock" || title=$(/busybox/httpd -d "$title")
 test -z "$timezone" && timezone="Europe/London" || timezone=$(/busybox/httpd -d "$timezone")

@@ -4,7 +4,7 @@ export PATH=/busybox
 echo "Content-Type: text/javascript"
 echo
 
-eval $(echo ${QUERY_STRING} | grep -o '[a-zA-Z][a-zA-Z0-9]*=[a-zA-Z0-9/]\+')
+eval $(echo "$QUERY_STRING" | grep -o '[a-zA-Z][[:alnum:]]*=[-[:alnum:]/_+%]\+')
 MYTZ=$(httpd -d "$tz")
 
 TIMESTAMP=$(timestamp)
