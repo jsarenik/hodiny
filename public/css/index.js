@@ -35,19 +35,19 @@ function dosync() {
   success: function(result){
 	da++;
 	today = new Date();
+	precision = today.getTime() - syncstart;
 	offsetfix = Math.floor(syncstart-result);
-	precision = (today.getTime() - syncstart)/1000;
 	sucLabel.innerHTML = da;
-	preLabel.innerHTML = precision;
-	if(precision >1) preLabel.style.color='RED';
+	preLabel.innerHTML = precision/1000;
+	if(precision >1000) preLabel.style.color='RED';
 	  else preLabel.style.color='GREEN';
 	ofsLabel.innerHTML = offsetfix/1000;
 	lteLabel.innerHTML = hms;
 	nextsync = 3000;
 	if(da>5) nextsync = 10000;
 	if(da>10) nextsync = 30000;
-	if(precision<0.4 && da>4) nextsync = 60000;
-	if(precision<0.15 && da>4) nextsync = 120000;
+	if(precision<400 && da>4) nextsync = 60000;
+	if(precision<150 && da>4) nextsync = 120000;
 	synctimer = setTimeout(dosync, nextsync);
   }});
 } // end of dosync()
