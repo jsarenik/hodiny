@@ -1,6 +1,5 @@
-var today = new Date();
-var offsetfix = Math.floor(server-today.getTime());
-var tzdiff = today.getTimezoneOffset() * 60000;
+var offsetfix = Math.floor(server-dtest.getTime());
+var tzdiff = dtest.getTimezoneOffset() * 60000;
 var hoursLabel = document.getElementById('hours');
 var minutesLabel = document.getElementById('minutes');
 var secondsLabel = document.getElementById('seconds');
@@ -70,5 +69,5 @@ function pad(val) {
 }
 
 var synctimer = setTimeout(dosync, 2200);
-document.getElementById('momenttime').innerHTML='In moment when this page was generated, the time was <b>'+today+'</b>';
+document.getElementById('momenttime').innerHTML='In moment when this page was generated, the time was <b>'+dtest+'</b>';
 setInterval(doTime, 100);
