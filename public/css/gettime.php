@@ -4,8 +4,10 @@ export PATH=/busybox
 echo "Content-Type: text/javascript"
 echo
 
-eval $(echo "$QUERY_STRING" | grep -o '[a-zA-Z][[:alnum:]]*=[-[:alnum:]/_+%]\+')
-MYTZ=$(httpd -d "$tz")
+test "$QUERY_STRING" != "" \
+  && eval $(echo "$QUERY_STRING" \
+    | grep -o '[a-zA-Z][[:alnum:]]*=[-[:alnum:]/_+%]\+')
+test "$tz" = "" || MYTZ=$(httpd -d "$tz")
 
 TIMESTAMP=$(timestamp)
 HMSTS=$(echo $TIMESTAMP | sed 's/......$//')

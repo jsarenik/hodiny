@@ -6,11 +6,15 @@ export PATH=/busybox
 echo "Content-Type: text/html; charset=UTF-8"
 echo
 
-eval $(echo "$QUERY_STRING" | grep -o '[a-zA-Z][[:alnum:]]*=[-[:alnum:]/_+%]\+')
+test "$QUERY_STRING" != "" \
+  && eval $(echo "$QUERY_STRING" \
+    | grep -o '[a-zA-Z][[:alnum:]]*=[-[:alnum:]/_+%]\+')
 
 # Shell router
-case $REQUEST_URI in
-  /more/digital/*) . $HERE/digital.sh;;
-  /analog/*) . $HERE/analog.sh;;
-  /tools/timestamptodate/*) . $HERE/timestamptodate.sh;;
-esac
+R=${REQUEST_URI%/*}
+R=${R##*/}
+# So far we handle following REQUEST_URIs:
+### /more/digital -> digital.sh
+### /analog -> analog.sh
+### /tools/timestamptodate -> timestamptodate.sh
+. $HERE/$R.sh

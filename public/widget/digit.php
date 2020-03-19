@@ -3,18 +3,20 @@
 echo "Content-Type: text/html"
 echo
 
-eval $(echo "$QUERY_STRING" | grep -o '[a-zA-Z][[:alnum:]]*=[-[:alnum:]/_+%]\+')
+test "$QUERY_STRING" != "" \
+  && eval $(echo "$QUERY_STRING" \
+    | grep -o '[a-zA-Z][[:alnum:]]*=[-[:alnum:]/_+%]\+')
 
-test -z "$title" && title="Clock" || title=$(/busybox/httpd -d "$title")
-test -z "$timezone" && timezone="Europe/London" || timezone=$(/busybox/httpd -d "$timezone")
+test "$title" = "" && title="Clock" || title=$(/busybox/httpd -d "$title")
+test "$timezone" = "" && timezone="Europe/London" || timezone=$(/busybox/httpd -d "$timezone")
 MYTZ="?tz=$timezone"
-test -z "$fontcol" && fontcol=222
-test -z "$bgcol" && bgcol=DDD
+test "$fontcol" = "" && fontcol=222
+test "$bgcol" = "" && bgcol=DDD
 
 TW=24
-test "$h24" -eq 0 && TW=12 || TWC="//"
-test "$weekday" -eq 1 && WEEKDAY='<div id="weekday" >3</div>' || DAYC="//"
-test "$showsec" -eq 0 && { SECVIS="visibility: hidden;"; SEC="//"; }
+test "$h24" = "0" && TW=12 || TWC="//"
+test "$weekday" = "1" && WEEKDAY='<div id="weekday" >3</div>' || DAYC="//"
+test "$showsec" = "0" && { SECVIS="visibility: hidden;"; SEC="//"; }
 
 cat <<EOF
 <!doctype html>
