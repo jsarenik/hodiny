@@ -35,7 +35,7 @@ function dosync() {
   success: function(result){
 	today = new Date();
 	da++;
-	precision = syncstart - today.getTime();
+	precision = today.getTime() - syncstart;
 	offsetfix = Math.floor(result - today.getTime());
 	sucLabel.innerHTML = da;
 	preLabel.innerHTML = precision/1000;
