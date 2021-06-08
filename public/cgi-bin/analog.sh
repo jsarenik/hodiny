@@ -221,9 +221,6 @@ This analog clock is also showing accurate exact time from our server (not your 
           <p>Continent: <a href="/${CONTDIR}/">$CONT</a></p>
           <p>Difference from Greenwich mean time: <a href="/$GMTDIR">$GMTLABEL</a></p>
           <p>Position of $MYN on time zone map you can find on <a href="$MYTL">$MYN digital clock</a> page.</p>
-          <h2>Support the webmaster</h2>
-
-          <p>If you like clock.zone, please, support me. That's one small click for man, one giant spiritual support for me :-) </p>
 </div>
 
         <div class="clearfix"></div>
