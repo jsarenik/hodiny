@@ -1,4 +1,4 @@
-var offsetfix = Math.floor(server-dtest.getTime());
+var offsetfix = 0;
 var tzdiff = dtest.getTimezoneOffset() * 60000;
 var hoursLabel = document.getElementById('hours');
 var minutesLabel = document.getElementById('minutes');
