@@ -35,7 +35,8 @@ function dosync() {
 	today = new Date();
 	da++;
 	precision = today.getTime() - syncstart;
-	offsetfix = Math.floor(result - today.getTime());
+	flresult = Math.floor(result);
+	offsetfix = Math.floor(syncstart - flresult + precision);
 	sucLabel.innerHTML = da;
 	preLabel.innerHTML = precision/1000;
 	if(precision >1000) preLabel.style.color='RED';
