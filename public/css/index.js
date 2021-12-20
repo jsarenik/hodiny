@@ -1,4 +1,4 @@
-var offsetfix = Math.floor(server-dtest.getTime());
+var offsetfix = 0;
 var tzdiff = dtest.getTimezoneOffset() * 60000;
 var hoursLabel = document.getElementById('hours');
 var minutesLabel = document.getElementById('minutes');
@@ -35,7 +35,8 @@ function dosync() {
 	today = new Date();
 	da++;
 	precision = today.getTime() - syncstart;
-	offsetfix = Math.floor(result - today.getTime());
+	flresult = Math.floor(result);
+	offsetfix = Math.floor(syncstart - flresult + precision);
 	sucLabel.innerHTML = da;
 	preLabel.innerHTML = precision/1000;
 	if(precision >1000) preLabel.style.color='RED';
