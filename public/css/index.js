@@ -34,7 +34,7 @@ function dosync() {
   success: function(result){
 	da++;
 	flresult = Math.floor(result);
-	offsetfix = flresult - syncstart;
+	offsetfix = syncstart - flresult;
 	sucLabel.innerHTML = da;
 	preLabel.innerHTML = offsetfix/1000;
 	if(offsetfix >1000) preLabel.style.color='RED';
