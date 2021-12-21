@@ -21,7 +21,7 @@ function hideds() {
 	decsLabel.style.visibility='hidden';
 }
 function dosync() {
-  $.ajax({url: "//timeapi-0274.nisim.workers.dev",cache:false, timeout:1800,
+  $.ajax({url: "/css/timeapi2.php",cache:false, timeout:1800,
   beforeSend: function(xhr) {
 	syncstart = new Date().getTime();
   },
@@ -32,22 +32,20 @@ function dosync() {
 	synctimer = setTimeout(dosync, nextsync);
   },
   success: function(result){
-	today = new Date();
 	da++;
-	precision = today.getTime() - syncstart;
 	flresult = Math.floor(result);
-	offsetfix = Math.floor(syncstart - flresult + precision);
+	offsetfix = flresult - syncstart;
 	sucLabel.innerHTML = da;
-	preLabel.innerHTML = precision/1000;
-	if(precision >1000) preLabel.style.color='RED';
+	preLabel.innerHTML = offsetfix/1000;
+	if(offsetfix >1000) preLabel.style.color='RED';
 	  else preLabel.style.color='GREEN';
 	ofsLabel.innerHTML = offsetfix/1000;
 	lteLabel.innerHTML = hms;
 	nextsync = 3000;
 	if(da>5) nextsync = 10000;
 	if(da>10) nextsync = 30000;
-	if(precision<400 && da>4) nextsync = 60000;
-	if(precision<150 && da>4) nextsync = 120000;
+	if(offsetfix<400 && da>4) nextsync = 60000;
+	if(offsetfix<150 && da>4) nextsync = 120000;
 	synctimer = setTimeout(dosync, nextsync);
   }});
 } // end of dosync()
