@@ -13,6 +13,7 @@ var lteLabel = document.getElementById('lte');
 var da = 0;
 var ne = 0;
 var syncstart = 0;
+var syncend = 0;
 
 function showds() {
 	decsLabel.style.visibility='visible';
