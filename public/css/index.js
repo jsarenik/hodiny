@@ -36,7 +36,7 @@ function dosync() {
 	syncend = new Date().getTime();
 	da++;
 	flresult = Math.floor(result);
-	precision = (syncstart - syncend)/2;
+	precision = syncstart - syncend;
 	offsetfix = syncstart - flresult - precision;
 	sucLabel.innerHTML = da;
 	preLabel.innerHTML = precision/1000;
