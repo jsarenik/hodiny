@@ -1,5 +1,7 @@
 c/timestamp
 c/timeapi
 c/timeapi2
+public/cgi-bin/timeapi
+public/cgi-bin/timeapi2
 public/css/index.min.js
 public/css/index.min.js.map
