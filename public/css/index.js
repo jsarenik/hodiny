@@ -22,7 +22,7 @@ function hideds() {
 	decsLabel.style.visibility='hidden';
 }
 function dosync() {
-  $.ajax({url: "/css/timeapi2.php",cache:false, timeout:1800,
+  $.ajax({url: "/cgi-bin/timeapi2",cache:false, timeout:1800,
   beforeSend: function(xhr) {
 	syncstart = new Date().getTime();
   },

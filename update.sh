@@ -1,4 +1,7 @@
 #!/bin/sh
 
 ./genmin.sh
-rsync -av --delete . singer:web/clock.zone/
+rsync -av \
+  --exclude=public/cgi-bin/timeapi \
+  --exclude=public/cgi-bin/timeapi2 \
+  --delete . singer:web/clock.zone/
