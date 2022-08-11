@@ -105,7 +105,7 @@ weekday[3] = "Wednesday";
 weekday[4] = "Thursday";
 weekday[5] = "Friday";
 weekday[6] = "Saturday";
-var wday = 3;
+var wday = $(TZ=$mytz; date +%w);
 
 var hoursLabel = document.getElementById("hours");
 var minutesLabel = document.getElementById("minutes");
