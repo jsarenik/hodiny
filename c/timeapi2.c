@@ -3,10 +3,13 @@
 
 int main() {
     struct timeval t;
+    double my;
 
     printf("Content-Type: text/javascript\n\n");
     gettimeofday(&t, NULL);
-    printf("%ld%03lu.%03lu\n", t.tv_sec, t.tv_usec/1000, t.tv_usec%1000);
+    my = t.tv_sec*1000 + (double)t.tv_usec/1000;
+
+    printf("%f\n", my);
 
     return 0;
 }
