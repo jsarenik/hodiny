@@ -1,6 +1,6 @@
 #!/busybox/sh
 
-export PATH=/busybox
+export PATH=/busybox/old:/busybox
 echo "Content-Type: text/javascript"
 echo
 

@@ -1,7 +1,7 @@
 #!/busybox/sh
 
 a="/$0"; a=${a%/*}; a=${a:-.}; a=${a#/}/; HERE=$(cd $a; pwd)
-export PATH=/busybox
+export PATH=/busybox/old:/busybox
 
 echo "Content-Type: text/html; charset=UTF-8"
 echo
