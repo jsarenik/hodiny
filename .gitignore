@@ -7,3 +7,5 @@ public/css/index.min.js
 public/css/index.min.js.map
 *.swp
 *-old
+*.gz
+*.br
