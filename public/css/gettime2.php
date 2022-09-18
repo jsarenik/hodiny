@@ -10,7 +10,8 @@ test "$QUERY_STRING" != "" \
 test "$tz" = "" || MYTZ=$(httpd -d "$tz")
 
 TIMESTAMP=$(timestamp)
-HMSTS=$(echo $TIMESTAMP | sed 's/......$//')
-MLS=$(echo $TIMESTAMP | sed -E 's/.*(..)....$/\1/')
+HMSTS=${TIMESTAMP%??????}
+MLS=${TIMESTAMP#${TIMESTAMP%??????}}
+MLS=${MLS%????}
 CURDS="+%H*360000+%M*6000+%S*100+$MLS"
 TZ=$MYTZ date -d "@$HMSTS" $CURDS | bc
