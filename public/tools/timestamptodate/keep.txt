@@ -1,0 +1,2 @@
+This timestamptodate directory is needed for proper working
+of the CGI-BIN handler.
